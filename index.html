@@ -1284,6 +1284,8 @@
         <p class="cform-sub" data-de="Wir antworten innerhalb von 2 Stunden." data-en="We respond within 2 hours.">Wir antworten innerhalb von 2 Stunden.</p>
 
         <form id="cform">
+          <input type="hidden" name="_subject" value="Nuova richiesta dal sito NGS Aviation">
+          <input type="hidden" name="_captcha" value="false">
           <div class="form-2col">
             <div class="fg">
               <label data-de="Vorname" data-en="First Name">Vorname</label>
@@ -1645,10 +1647,41 @@
   if (cform) {
     cform.addEventListener('submit', function doSubmit(e) {
       e.preventDefault();
-      const toast = document.getElementById('toast');
-      if (toast) {
-        setTimeout(() => { toast.style.display = 'block'; }, 300);
+      
+      const btn = cform.querySelector('button[type="submit"]');
+      const originalText = btn ? btn.textContent : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = '...';
       }
+
+      const formData = new FormData(cform);
+
+      fetch("https://formsubmit.co/ajax/sergioparadiso@ngsaviation.de", {
+          method: "POST",
+          body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+          const toast = document.getElementById('toast');
+          if (toast) {
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 6000);
+          }
+          cform.reset();
+          if (btn) {
+            btn.disabled = false;
+            btn.textContent = originalText;
+          }
+      })
+      .catch(error => {
+          console.error(error);
+          alert("Fehler beim Senden. / Error sending. Please try again.");
+          if (btn) {
+            btn.disabled = false;
+            btn.textContent = originalText;
+          }
+      });
     });
   }
 
