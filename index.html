@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NGS Aviation GmbH – Charter · Vermietung · Flugzeugverkauf</title>
+  <meta name="description" content="NGS Aviation GmbH — Privatjet-Charter, Flugzeugvermietung und Flugzeugverkauf für Flugzeuge & Hubschrauber. Private jet charter, aircraft rental and brokerage across Europe." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,300;0,400;0,500;0,600;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Reset ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:        #0a0a0a;
+      --ink-mid:    #3a3a3a;
+      --ink-soft:   #777777;
+      --line:       #e0e0e0;
+      --bg:         #ffffff;
+      --bg-tint:    #f7f6f4;
+      --accent:     #0a0a0a;
+      --gold:       #b8953f;
+      --ease:       cubic-bezier(.4,0,.2,1);
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      overflow-x: hidden;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3 { font-family: 'DM Serif Display', serif; line-height: 1.1; }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    ul { list-style: none; }
+    button { cursor: pointer; font-family: 'Inter', sans-serif; }
+
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 2.5rem; }
+    .container--wide { max-width: 1380px; margin: 0 auto; padding: 0 2.5rem; }
+
+    /* ── Utility ────────────────────────────────────── */
+    .eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 3.5px;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      font-weight: 500;
+    }
+    .rule {
+      display: block; width: 40px; height: 1px;
+      background: var(--ink); margin: 1.2rem 0;
+    }
+    .rule--center { margin: 1.2rem auto; }
+
+    /* Reveal */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .7s var(--ease), transform .7s var(--ease);
+    }
+    .reveal.up { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+
+    /* ── Loader ─────────────────────────────────────── */
+    #loader {
+      position: fixed; inset: 0;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999;
+      transition: opacity .5s ease, visibility .5s ease;
+    }
+    #loader.out { opacity: 0; visibility: hidden; }
+    .loader-inner { text-align: center; }
+    .loader-wordmark {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.2rem; letter-spacing: 2px;
+      color: var(--ink);
+    }
+    .loader-line-wrap {
+      margin-top: 1.4rem;
+      width: 160px; height: 1px;
+      background: var(--line);
+      overflow: hidden; position: relative;
+    }
+    .loader-line-fill {
+      position: absolute; inset: 0;
+      background: var(--ink);
+      transform: scaleX(0); transform-origin: left;
+      animation: fillLine 1.3s var(--ease) forwards;
+    }
+    @keyframes fillLine { to { transform: scaleX(1); } }
+
+    /* ── Navbar ─────────────────────────────────────── */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 900;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s ease;
+      padding: 1.4rem 0;
+    }
+    #nav.solid { border-color: var(--line); padding: 1rem 0; }
+
+    .nav-row {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex; flex-direction: column; line-height: 1.15;
+    }
+    .nav-logo strong {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.15rem; letter-spacing: .5px;
+    }
+    .nav-logo span {
+      font-size: 0.58rem; letter-spacing: 3.5px;
+      text-transform: uppercase; color: var(--ink-soft);
+    }
+
+    .nav-links {
+      display: flex; gap: 2.8rem; align-items: center;
+    }
+    .nav-links a {
+      font-size: 0.78rem; letter-spacing: .5px;
+      color: var(--ink-mid);
+      position: relative;
+      transition: color .25s ease;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
+      height: 1px; background: var(--ink);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .3s var(--ease);
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    .nav-right { display: flex; align-items: center; gap: 1.5rem; }
+
+    .lang-sw {
+      display: flex; gap: 0; border: 1px solid var(--line); border-radius: 2px;
+    }
+    .lang-sw button {
+      background: none; border: none;
+      padding: .3rem .65rem;
+      font-size: 0.65rem; letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      transition: all .2s ease;
+    }
+    .lang-sw button.on { background: var(--ink); color: white; }
+
+    .btn-cta {
+      display: inline-block;
+      background: var(--ink);
+      color: white;
+      border: 1px solid var(--ink);
+      padding: .6rem 1.6rem;
+      font-size: 0.72rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 500;
+      border-radius: 2px;
+      transition: background .25s ease, color .25s ease;
+    }
+    .btn-cta:hover { background: transparent; color: var(--ink); }
+
+    .btn-cta--outline {
+      background: transparent; color: var(--ink);
+    }
+    .btn-cta--outline:hover { background: var(--ink); color: white; }
+
+    .ham {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; padding: 4px;
+    }
+    .ham span {
+      display: block; width: 22px; height: 1.5px; background: var(--ink);
+      transition: all .3s ease;
+    }
+
+    /* ── Mobile drawer ───────────────────────────────── */
+    .drawer {
+      display: none; position: fixed; inset: 0;
+      background: var(--bg); z-index: 890;
+      flex-direction: column; align-items: center;
+      justify-content: center; gap: 2.2rem;
+    }
+    .drawer.open { display: flex; }
+    .drawer a {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.2rem; color: var(--ink);
+      transition: opacity .2s ease;
+    }
+    .drawer a:hover { opacity: .5; }
+    .drawer-close {
+      position: absolute; top: 1.6rem; right: 2rem;
+      background: none; border: none;
+      font-size: 1.6rem; color: var(--ink);
+    }
+
+    /* ── HERO ────────────────────────────────────────── */
+    #hero {
+      min-height: 100svh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
+
+    .hero-left {
+      display: flex; flex-direction: column;
+      justify-content: flex-end;
+      padding: 10rem 3rem 5rem 0;
+      padding-left: max(2.5rem, calc((100vw - 1180px) / 2 + 2.5rem));
+      border-right: 1px solid var(--line);
+    }
+    .hero-label {
+      display: flex; align-items: center; gap: .8rem;
+      margin-bottom: 2rem;
+    }
+    .hero-label::before {
+      content: ''; display: block; width: 30px; height: 1px; background: var(--ink);
+    }
+    .hero-h1 {
+      font-size: clamp(3.2rem, 5.5vw, 5.8rem);
+      line-height: 1.0;
+      letter-spacing: -.02em;
+      color: var(--ink);
+      max-width: 580px;
+    }
+    .hero-h1 em { font-style: italic; }
+    .hero-sub {
+      margin-top: 2rem;
+      font-size: 1rem; color: var(--ink-soft);
+      font-weight: 300; max-width: 440px;
+      line-height: 1.75;
+    }
+    .hero-actions {
+      margin-top: 3rem;
+      display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;
+    }
+    .hero-scroll {
+      margin-top: 4rem;
+      display: flex; align-items: center; gap: .8rem;
+      font-size: 0.65rem; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--ink-soft);
+    }
+    .hero-scroll-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      border: 1px solid var(--ink-soft);
+      animation: pulseDot 2s ease infinite;
+    }
+    @keyframes pulseDot {
+      0%,100% { transform: scale(1); opacity: .5; }
+      50%      { transform: scale(1.5); opacity: 1; }
+    }
+
+    .hero-right {
+      position: relative; overflow: hidden;
+    }
+    .hero-right img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 8s ease;
+      transform: scale(1.05);
+    }
+    .hero-right img.loaded { transform: scale(1); }
+    .hero-right-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, rgba(255,255,255,.06) 0%, transparent 40%);
+    }
+    .hero-stat-strip {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid var(--line);
+      display: grid; grid-template-columns: repeat(3,1fr);
+    }
+    .hero-stat {
+      padding: 1.2rem 1.5rem;
+      border-right: 1px solid var(--line);
+    }
+    .hero-stat:last-child { border-right: none; }
+    .hero-stat-n {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.8rem; color: var(--ink);
+    }
+    .hero-stat-l {
+      font-size: 0.63rem; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--ink-soft);
+      margin-top: .1rem;
+    }
+
+    /* ── MARQUEE ─────────────────────────────────────── */
+    .marquee {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 1.1rem 0;
+      overflow: hidden; background: var(--bg-tint);
+    }
+    .marquee-track {
+      display: flex; gap: 5rem; width: max-content;
+      animation: slide 35s linear infinite;
+    }
+    .marquee-item {
+      display: flex; align-items: center; gap: 1rem;
+      font-size: 0.65rem; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--ink-soft);
+      white-space: nowrap;
+    }
+    .marquee-sep { width: 3px; height: 3px; background: var(--gold); border-radius: 50%; flex-shrink: 0; }
+    @keyframes slide { to { transform: translateX(-50%); } }
+
+    /* ── SERVICES ────────────────────────────────────── */
+    #services { padding: 8rem 0; }
+
+    .services-head {
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: end; gap: 4rem;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 3rem; margin-bottom: 0;
+    }
+    .services-head-desc {
+      font-size: .92rem; color: var(--ink-soft);
+      font-weight: 300; line-height: 1.8;
+      max-width: 420px;
+    }
+
+    .services-list { }
+    .service-row {
+      display: grid; grid-template-columns: 60px 1fr 220px 50px;
+      align-items: center; gap: 2rem;
+      padding: 2.2rem 0;
+      border-bottom: 1px solid var(--line);
+      cursor: pointer;
+      transition: background .2s ease;
+    }
+    .service-row:hover { background: var(--bg-tint); margin: 0 -2.5rem; padding-left: 2.5rem; padding-right: 2.5rem; }
+    .service-row-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: .85rem; color: var(--ink-soft);
+      font-style: italic;
+    }
+    .service-row-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem; color: var(--ink);
+    }
+    .service-row-tag {
+      font-size: 0.65rem; letter-spacing: 2.5px;
+      text-transform: uppercase; color: var(--ink-soft);
+      text-align: right;
+    }
+    .service-row-arrow {
+      font-size: 1.2rem; color: var(--ink-soft);
+      transition: transform .3s var(--ease);
+      text-align: center;
+    }
+    .service-row:hover .service-row-arrow { transform: translateX(5px); color: var(--ink); }
+
+    .service-expanded {
+      display: none; overflow: hidden;
+      grid-column: 1 / -1;
+    }
+    .service-expanded.open { display: block; }
+    .service-expanded-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 3rem; padding: 2.5rem 0 3rem;
+    }
+    .service-expanded-inner img {
+      width: 100%; height: 280px; object-fit: cover;
+    }
+    .service-expanded-text p {
+      font-size: .9rem; color: var(--ink-soft);
+      font-weight: 300; line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── ABOUT ───────────────────────────────────────── */
+    #about { padding: 8rem 0; background: var(--bg-tint); }
+
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 6rem; align-items: center;
+    }
+    .about-img-wrap { position: relative; }
+    .about-img-wrap img {
+      width: 100%; height: 560px;
+      object-fit: cover;
+    }
+    .about-img-caption {
+      position: absolute; bottom: 0; right: 0;
+      background: var(--bg);
+      padding: 1.8rem;
+      border-left: 1px solid var(--line);
+      border-top: 1px solid var(--line);
+    }
+    .about-img-caption strong {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.4rem; display: block;
+    }
+    .about-img-caption span {
+      font-size: .62rem; letter-spacing: 2.5px;
+      text-transform: uppercase; color: var(--ink-soft);
+    }
+
+    .about-text h2 {
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      line-height: 1.1; margin-bottom: .8rem;
+    }
+    .about-text p {
+      font-size: .92rem; color: var(--ink-soft);
+      font-weight: 300; line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+    .about-checks {
+      margin-top: 2.5rem;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem;
+    }
+    .about-check {
+      display: flex; gap: .7rem; align-items: flex-start;
+    }
+    .check-tick {
+      font-size: .7rem; color: var(--gold);
+      margin-top: .15rem; flex-shrink: 0;
+    }
+    .about-check-text strong {
+      display: block; font-size: .82rem; font-weight: 500; margin-bottom: .15rem;
+    }
+    .about-check-text span {
+      font-size: .75rem; color: var(--ink-soft); font-weight: 300;
+    }
+
+    /* ── BROKERAGE ───────────────────────────────────── */
+    #brokerage { padding: 8rem 0; }
+
+    .broker-header {
+      text-align: center; max-width: 700px;
+      margin: 0 auto 5rem;
+    }
+    .broker-header h2 {
+      font-size: clamp(2.2rem, 4vw, 3.8rem);
+      margin-bottom: .8rem;
+    }
+    .broker-header p {
+      font-size: .95rem; color: var(--ink-soft);
+      font-weight: 300; line-height: 1.8;
+    }
+
+    .broker-types-grid {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      border: 1px solid var(--line);
+    }
+    .broker-type-item {
+      padding: 2.8rem 2rem;
+      border-right: 1px solid var(--line);
+      transition: background .25s ease;
+    }
+    .broker-type-item:last-child { border-right: none; }
+    .broker-type-item:hover { background: var(--bg-tint); }
+    .broker-type-icon {
+      font-size: 1.6rem; margin-bottom: 1.2rem;
+    }
+    .broker-type-item h3 {
+      font-size: 1.15rem; margin-bottom: .6rem;
+    }
+    .broker-type-item p {
+      font-size: .8rem; color: var(--ink-soft);
+      font-weight: 300; line-height: 1.6;
+    }
+
+    .broker-process {
+      margin-top: 4rem;
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 0;
+      border-top: 1px solid var(--line);
+      padding-top: 4rem;
+    }
+    .broker-step {
+      padding: 0 2rem 0 0;
+      border-right: 1px solid var(--line);
+      padding-right: 2rem;
+      margin-right: 0;
+    }
+    .broker-step:last-child { border-right: none; padding-right: 0; }
+    .broker-step-n {
+      font-family: 'DM Serif Display', serif;
+      font-size: 3rem; color: var(--line);
+      line-height: 1;
+    }
+    .broker-step h4 {
+      font-size: 1rem; margin: .6rem 0 .4rem;
+    }
+    .broker-step p {
+      font-size: .8rem; color: var(--ink-soft);
+      font-weight: 300; line-height: 1.6;
+    }
+
+    .broker-images {
+      margin-top: 4rem;
+      display: grid; grid-template-columns: 1.6fr 1fr;
+      gap: 1rem; height: 400px;
+    }
+    .broker-images img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+
+    /* ── WHY / METRICS ───────────────────────────────── */
+    #why { padding: 8rem 0; background: var(--ink); color: white; }
+
+    .why-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 6rem; align-items: center;
+    }
+    .why-text .eyebrow { color: rgba(255,255,255,.45); }
+    .why-text h2 {
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      color: white; margin-bottom: 1rem;
+    }
+    .why-text p {
+      font-size: .92rem; color: rgba(255,255,255,.6);
+      font-weight: 300; line-height: 1.8; margin-bottom: 1rem;
+    }
+    .why-text .rule { background: rgba(255,255,255,.3); }
+    .why-metrics {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+      border: 1px solid rgba(255,255,255,.12);
+    }
+    .why-metric {
+      padding: 2.5rem 2rem;
+      border-right: 1px solid rgba(255,255,255,.12);
+      border-bottom: 1px solid rgba(255,255,255,.12);
+    }
+    .why-metric:nth-child(2n) { border-right: none; }
+    .why-metric:nth-child(3), .why-metric:nth-child(4) { border-bottom: none; }
+    .why-metric-n {
+      font-family: 'DM Serif Display', serif;
+      font-size: 3rem; color: white; line-height: 1;
+    }
+    .why-metric-l {
+      font-size: .65rem; letter-spacing: 2.5px;
+      text-transform: uppercase; color: rgba(255,255,255,.45);
+      margin-top: .4rem;
+    }
+
+    /* ── QUOTE ───────────────────────────────────────── */
+    #quote {
+      padding: 7rem 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .quote-wrap { text-align: center; max-width: 760px; margin: 0 auto; }
+    .quote-mark {
+      font-family: 'DM Serif Display', serif;
+      font-size: 5rem; line-height: .4;
+      color: var(--line); display: block; margin-bottom: 2rem;
+    }
+    .quote-text {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-style: italic; line-height: 1.45;
+      color: var(--ink);
+    }
+    .quote-attr {
+      margin-top: 2rem;
+      font-size: .65rem; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--ink-soft);
+    }
+
+    /* ── CONTACT ─────────────────────────────────────── */
+    #contact { padding: 8rem 0; }
+
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1.4fr;
+      gap: 6rem; align-items: start;
+    }
+    .contact-info h2 {
+      font-size: clamp(2rem,3.5vw,3.2rem); margin-bottom: .8rem;
+    }
+    .contact-info > p {
+      font-size: .92rem; color: var(--ink-soft);
+      font-weight: 300; line-height: 1.8; margin-bottom: 2.5rem;
+    }
+    .contact-details { display: flex; flex-direction: column; gap: 0; }
+    .cdet {
+      display: flex; align-items: flex-start; gap: 1.2rem;
+      padding: 1.4rem 0; border-bottom: 1px solid var(--line);
+    }
+    .cdet:first-child { border-top: 1px solid var(--line); }
+    .cdet-label {
+      font-size: .63rem; letter-spacing: 2.5px;
+      text-transform: uppercase; color: var(--ink-soft);
+      min-width: 80px; padding-top: .05rem;
+    }
+    .cdet-val {
+      font-size: .92rem; color: var(--ink); font-weight: 400;
+    }
+
+    /* Form */
+    .contact-form { }
+    .cform-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem; margin-bottom: .3rem;
+    }
+    .cform-sub {
+      font-size: .8rem; color: var(--ink-soft); margin-bottom: 2.2rem;
+    }
+    .form-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .fg { margin-bottom: 1.2rem; }
+    .fg label {
+      display: block; font-size: .62rem;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--ink-soft); margin-bottom: .5rem;
+    }
+    .fg input, .fg select, .fg textarea {
+      width: 100%;
+      background: none;
+      border: none; border-bottom: 1px solid var(--line);
+      padding: .7rem 0;
+      font-size: .92rem; color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: border-color .25s ease;
+      border-radius: 0;
+    }
+    .fg input:focus, .fg select:focus, .fg textarea:focus {
+      border-color: var(--ink);
+    }
+    .fg select option { background: white; }
+    .fg textarea { resize: vertical; min-height: 100px; }
+    .form-footer {
+      margin-top: 1.5rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+    .form-note {
+      font-size: .7rem; color: var(--ink-soft); max-width: 50%; line-height: 1.5;
+    }
+    .form-note a { color: var(--ink); text-decoration: underline; }
+    .form-toast {
+      display: none; margin-top: 1.2rem;
+      padding: .9rem 1.2rem;
+      border: 1px solid var(--line);
+      background: var(--bg-tint);
+      font-size: .82rem; color: var(--ink);
+    }
+
+    /* ── FOOTER ──────────────────────────────────────── */
+    footer {
+      background: var(--ink); color: white;
+      padding: 5rem 0 2.5rem;
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem; padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+    .footer-brand strong {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem; display: block; margin-bottom: .6rem;
+    }
+    .footer-brand p {
+      font-size: .8rem; color: rgba(255,255,255,.45);
+      font-weight: 300; line-height: 1.7; max-width: 280px;
+    }
+    .footer-certs {
+      display: flex; gap: .5rem; margin-top: 1.5rem;
+    }
+    .footer-cert {
+      border: 1px solid rgba(255,255,255,.2);
+      padding: .25rem .6rem;
+      font-size: .6rem; letter-spacing: 1.5px;
+      text-transform: uppercase; color: rgba(255,255,255,.45);
+      border-radius: 1px;
+    }
+    .footer-col h5 {
+      font-size: .65rem; letter-spacing: 3px;
+      text-transform: uppercase; color: rgba(255,255,255,.4);
+      margin-bottom: 1.3rem;
+    }
+    .footer-col ul { display: flex; flex-direction: column; gap: .7rem; }
+    .footer-col a {
+      font-size: .82rem; color: rgba(255,255,255,.65);
+      transition: color .2s ease;
+    }
+    .footer-col a:hover { color: white; }
+    .footer-bottom {
+      padding-top: 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-bottom p {
+      font-size: .72rem; color: rgba(255,255,255,.35);
+    }
+    .footer-bottom-links { display: flex; gap: 2rem; }
+    .footer-bottom-links a {
+      font-size: .7rem; color: rgba(255,255,255,.35);
+      transition: color .2s ease;
+    }
+    .footer-bottom-links a:hover { color: rgba(255,255,255,.8); }
+
+    /* ── Responsive ──────────────────────────────────── */
+    @media (max-width: 1050px) {
+      .broker-types-grid { grid-template-columns: repeat(2,1fr); }
+      .broker-process { grid-template-columns: repeat(2,1fr); gap: 2rem; }
+      .broker-step { border-right: none; padding-right: 0; border-bottom: 1px solid var(--line); padding-bottom: 2rem; }
+      .broker-step:last-child { border-bottom: none; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 860px) {
+      #hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 8rem 2.5rem 3rem; border-right: none; border-bottom: 1px solid var(--line); }
+      .hero-right { height: 55vw; min-height: 320px; }
+      .services-head { grid-template-columns: 1fr; gap: 1.5rem; }
+      .about-grid, .broker-images, .why-inner, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .service-row { grid-template-columns: 40px 1fr 40px; }
+      .service-row-tag { display: none; }
+      .nav-links, .btn-cta { display: none; }
+      .ham { display: flex; }
+    }
+    @media (max-width: 600px) {
+      .container, .container--wide { padding: 0 1.5rem; }
+      .broker-types-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; }
+      .form-2col { grid-template-columns: 1fr; }
+      .form-footer { flex-direction: column; align-items: flex-start; }
+      .form-note { max-width: 100%; }
+      .why-metrics { grid-template-columns: 1fr; }
+      .why-metric { border-right: none !important; }
+      .about-checks { grid-template-columns: 1fr; }
+    }
+  
+.brand-mark{display:inline-flex;align-items:center;justify-content:center;line-height:0;flex-shrink:0}
+.brand-mark svg{width:clamp(42px,4vw,64px);height:auto;display:block}
+.brand-text{display:inline-block}
+
+
+    .footer-brand-trigger{display:inline-flex;flex-direction:column;align-items:flex-start;cursor:pointer}
+    .footer-brand-trigger:focus-visible{outline:1px solid rgba(255,255,255,.7);outline-offset:6px}
+    .legal-modal{position:fixed;inset:0;background:rgba(10,10,10,.68);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:2rem;z-index:1200}
+    .legal-modal.open{display:flex}
+    .legal-modal-panel{width:min(980px,100%);max-height:88vh;overflow:auto;background:var(--bg);color:var(--ink);border:1px solid var(--line);box-shadow:0 24px 80px rgba(0,0,0,.18);position:relative}
+    .legal-modal-head{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.2rem 1.5rem;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .legal-modal-tabs{display:flex;gap:.6rem;flex-wrap:wrap}
+    .legal-tab{border:1px solid var(--line);padding:.55rem .9rem;font-size:.72rem;letter-spacing:1.4px;text-transform:uppercase;background:transparent;color:var(--ink-soft)}
+    .legal-tab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+    .legal-close{font-size:1.2rem;line-height:1;padding:.35rem .55rem;border:1px solid var(--line)}
+    .legal-modal-body{padding:0}
+    .legal-pane{display:none;padding:2rem 1.5rem 2.5rem}
+    .legal-pane.active{display:block}
+    .footer-bottom-links{display:none}
+
+    .footer-top{display:grid;grid-template-columns:minmax(280px,2fr) 1fr 1fr 1fr;gap:3rem;padding-bottom:3rem;border-bottom:1px solid rgba(255,255,255,.1)}
+    .footer-brand{display:flex;flex-direction:column;gap:1rem;align-items:flex-start}
+    .footer-brand-trigger{display:flex;align-items:center;gap:1rem;background:none;border:none;color:inherit;padding:0;text-align:left}
+    .footer-brand-trigger .brand-mark{width:48px}
+    .footer-brand-copy strong{font-family:DM Serif Display, serif;font-size:1.3rem;display:block;margin-bottom:.25rem}
+    .footer-brand-copy span{font-size:.78rem;color:rgba(255,255,255,.5);letter-spacing:.04em;text-transform:uppercase}
+    .footer-brand-note{font-size:.8rem;color:rgba(255,255,255,.45);max-width:34ch;line-height:1.65}
+    .footer-certs{display:flex;gap:.5rem;flex-wrap:wrap}
+    .footer-bottom{padding-top:1.4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+    .footer-legal-inline{background:none;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.72);padding:.55rem .85rem;font-size:.68rem;letter-spacing:1.8px;text-transform:uppercase}
+    .footer-legal-inline:hover{color:#fff;border-color:rgba(255,255,255,.38)}
+    @media (max-width: 1050px){.footer-top{grid-template-columns:1fr 1fr}.footer-brand{grid-column:1 / -1}}
+    @media (max-width: 640px){.footer-top{grid-template-columns:1fr;gap:2rem}.footer-brand-trigger{align-items:flex-start}.footer-bottom{flex-direction:column;align-items:flex-start}}
+
+    @media (max-width: 700px){.legal-modal{padding:1rem}.legal-modal-head{padding:1rem}.legal-pane{padding:1.25rem 1rem 1.5rem}}
+
+
+    .broker-type-icon,.check-tick,.quote-mark{display:inline-flex;align-items:center;justify-content:center;color:var(--gold)}
+    .broker-type-icon svg{width:26px;height:26px}
+    .check-tick svg{width:18px;height:18px}
+    .quote-mark svg{width:52px;height:52px}
+    .broker-type-icon{margin-bottom:1.2rem;color:var(--ink)}
+    .quote-mark{color:var(--gold);margin:0 auto 1.6rem}
+
+
+    .service-row-num{display:none}
+    .service-row{grid-template-columns:84px 1fr 220px 50px}
+    .service-thumb{width:68px;height:52px;border-radius:3px;overflow:hidden;border:1px solid var(--line);background:var(--bg-tint);box-shadow:0 8px 20px rgba(0,0,0,.04)}
+    .service-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    @media (max-width: 860px){.service-row{grid-template-columns:84px 1fr 40px}.service-row-tag{display:none}}
+    @media (max-width: 600px){.service-row{grid-template-columns:72px 1fr 36px}.service-thumb{width:58px;height:46px}}
+
+</style>
+</head>
+<body>
+
+<!-- ── LOADER ───────────────────────────── -->
+<div id="loader">
+  <div class="loader-inner">
+    <div class="loader-wordmark">NGS Aviation GmbH</div>
+    <div class="loader-line-wrap">
+      <div class="loader-line-fill"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MOBILE DRAWER ────────────────────── -->
+<div class="drawer" id="drawer">
+  <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  <a href="#services" onclick="closeDrawer()" data-de="Leistungen" data-en="Services">Leistungen</a>
+  <a href="#brokerage" onclick="closeDrawer()" data-de="Flugzeugverkauf" data-en="Broker">Flugzeugverkauf</a>
+  <a href="#about" onclick="closeDrawer()" data-de="Über uns" data-en="About">Über uns</a>
+  <a href="#contact" onclick="closeDrawer()" data-de="Kontakt" data-en="Contact">Kontakt</a>
+</div>
+
+<!-- ── NAV ──────────────────────────────── -->
+<header id="nav">
+  <div class="container">
+    <div class="nav-row">
+
+      <a href="#" class="nav-logo" style="display:flex;align-items:center;gap:0.7rem;">
+        <div class="brand-mark" aria-label="NGS Aviation logo">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 22" fill="none">
+  <title>NGS Aviation</title>
+  <path d="M2 21L15 1L28 21" stroke="#88AECA" stroke-width="1.8" stroke-linejoin="round"/>
+  <path d="M8 21L15 9L22 21" stroke="#0F2540" stroke-width="2.2" stroke-linejoin="round"/>
+</svg></div>
+        <div style="display:flex;flex-direction:column;line-height:1.15;">
+          <strong>NGS Aviation</strong>
+          <span>GmbH</span>
+        </div>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#services" data-de="Leistungen" data-en="Services">Leistungen</a>
+        <a href="#brokerage" data-de="Flugzeugverkauf" data-en="Broker">Broker</a>
+        <a href="#about" data-de="Über uns" data-en="About">Über uns</a>
+        <a href="#contact" data-de="Kontakt" data-en="Contact">Kontakt</a>
+      </nav>
+
+      <div class="nav-right">
+        <div class="lang-sw">
+          <button class="on" onclick="setLang('de')">DE</button>
+          <button onclick="setLang('en')">EN</button>
+        </div>
+        <a href="#contact" class="btn-cta" data-de="Anfragen" data-en="Get a Quote">Anfragen</a>
+        <button class="ham" onclick="openDrawer()">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<!-- ── HERO ─────────────────────────────── -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-label">
+      <span class="eyebrow" data-de="Premium Aviation" data-en="Premium Aviation">Premium Aviation</span>
+    </div>
+    <h1 class="hero-h1">
+      <span data-de=" Präzision. Diskretion. Höhe." data-en="Precision. Discretion. Altitude.">
+        Präzision. Diskretion. Höhe.
+      </span>
+    </h1>
+    <p class="hero-sub"
+       data-de="Charter, Vermietung und Dienstleistungen für Flugzeuge und Hubschrauber präzise organisiert, diskret durchgeführt."
+       data-en="Charter, rental and brokerage services for aircraft and helicopters precisely organised, discreetly executed.">
+      Charter, Vermietung und Dienstleistungen für Flugzeuge und Hubschrauber präzise organisiert, diskret durchgeführt.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-cta" data-de="Jetzt anfragen" data-en="Request a Quote">Jetzt anfragen</a>
+      <a href="#services" class="btn-cta btn-cta--outline" data-de="Leistungen entdecken" data-en="Discover Services">Leistungen entdecken</a>
+    </div>
+    <div class="hero-scroll">
+      <div class="hero-scroll-dot"></div>
+      <span data-de="Scrollen" data-en="Scroll">Scrollen</span>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <img id="heroImg"
+         src="https://images.unsplash.com/photo-1474302770737-173ee21bab63?w=1400&q=90&auto=format&fit=crop"
+         alt="NGS Aviation private jet" />
+    <div class="hero-right-overlay"></div>
+    <div class="hero-stat-strip">
+      <div class="hero-stat">
+        <div class="hero-stat-n">24/7</div>
+        <div class="hero-stat-l" data-de="Erreichbar" data-en="Available">Erreichbar</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-n" style="font-size:1rem;letter-spacing:1px;" data-de="Premium" data-en="Premium">Premium</div>
+        <div class="hero-stat-l" data-de="Service" data-en="Service">Service</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-n" style="font-size:1rem;letter-spacing:1px;" data-de="Weltweit" data-en="Worldwide">Weltweit</div>
+        <div class="hero-stat-l" data-de="Destinationen" data-en="Destinations">Destinationen</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MARQUEE ───────────────────────────── -->
+<div class="marquee">
+  <div class="marquee-track">
+    <div class="marquee-item"><div class="marquee-sep"></div>Berlin</div>
+    <div class="marquee-item"><div class="marquee-sep"></div>München</div>
+    <div class="marquee-item"><div class="marquee-sep"></div>London</div>
+    <div class="marquee-item"><div class="marquee-sep"></div>Paris</div>
+    <div class="marquee-item"><div class="marquee-sep"></div>Zürich</div>
+    <div class="marquee-item"><div class="marquee-sep"></div>Dubai</div>
+    <div class="marquee-item"><div class="marquee-sep"></div>New York</div>
+    <div class="marquee-item"><div class="marquee-sep"></div>Cannes</div>
+    <div class="marquee-item"><div class="marquee-sep"></div>Wien</div>
+    <div class="marquee-item"><div class="marquee-sep"></div>Genf</div>
+    <div class="marquee-item"><div class="marquee-sep"></div>Moskau</div>
+    <div class="marquee-item"><div class="marquee-sep"></div>Istanbul</div>
+    <div class="marquee-item"><div class="marquee-sep"></div>Berlin</div>
+    <div class="marquee-item"><div class="marquee-sep"></div>München</div>
+    <div class="marquee-item"><div class="marquee-sep"></div>London</div>
+    <div class="marquee-item"><div class="marquee-sep"></div>Paris</div>
+    <div class="marquee-item"><div class="marquee-sep"></div>Zürich</div>
+    <div class="marquee-item"><div class="marquee-sep"></div>Dubai</div>
+    <div class="marquee-item"><div class="marquee-sep"></div>New York</div>
+    <div class="marquee-item"><div class="marquee-sep"></div>Cannes</div>
+    <div class="marquee-item"><div class="marquee-sep"></div>Wien</div>
+    <div class="marquee-item"><div class="marquee-sep"></div>Genf</div>
+    <div class="marquee-item"><div class="marquee-sep"></div>Istanbul</div>
+  </div>
+</div>
+
+<!-- ── SERVICES ──────────────────────────── -->
+<section id="services">
+  <div class="container">
+
+    <div class="services-head reveal">
+      <div>
+        <span class="eyebrow" data-de="Was wir anbieten" data-en="What We Offer">Was wir anbieten</span>
+        <h2 style="font-size:clamp(2.2rem,4vw,3.6rem);margin-top:.6rem;">
+          <span data-de="Unsere Leistungen" data-en="Our Services">Unsere Leistungen</span>
+        </h2>
+      </div>
+      <p class="services-head-desc reveal reveal-delay-1"
+         data-de="Von der kurzfristigen Charter-Buchung bis zur vollständigen Transaktion beim Kauf oder Verkauf eines Luftfahrzeuges wir begleiten Sie kompetent auf jedem Weg."
+         data-en="From last-minute charter bookings to the complete transaction when buying or selling an aircraft we support you competently every step of the way.">
+        Von der kurzfristigen Charter-Buchung bis zur vollständigen Transaktion beim Kauf oder Verkauf eines Luftfahrzeuges wir begleiten Sie kompetent auf jedem Weg.
+      </p>
+    </div>
+
+    <div class="services-list reveal">
+
+      <!-- Row 1 -->
+      <div class="service-row" onclick="toggleService('s1')">
+        <div class="service-thumb"><img src="https://images.aircharterservice.com/global/services/private-jet-charter.jpg" alt="Private jet charter on tarmac" loading="lazy" width="68" height="52"></div>
+        <div class="service-row-title" data-de="Privatjet-Charter" data-en="Private Jet Charter">Privatjet-Charter</div>
+        <div class="service-row-tag" data-de="Charter & Flüge" data-en="Charter & Flights">Charter & Flüge</div>
+        <div class="service-row-arrow">+</div>
+        <div class="service-expanded" id="s1">
+          <div class="service-expanded-inner">
+            <img src="https://images.unsplash.com/photo-1566009953920-32b94f399842?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Privatjet" loading="lazy" />
+            <div class="service-expanded-text">
+              <p data-de="Exklusiver Charter für Geschäftsreisen und Freizeitflüge. Wählen Sie Ihren Wunschjet und reisen Sie zu Ihren eigenen Bedingungen ohne Warteschlangen, ohne Kompromisse, mit vollständigem Datenschutz."
+                 data-en="Exclusive charter for business travel and leisure flights. Choose your preferred jet and travel on your own terms without queues, without compromises, with complete privacy.">
+                Exklusiver Charter für Geschäftsreisen und Freizeitflüge. Wählen Sie Ihren Wunschjet und reisen Sie zu Ihren eigenen Bedingungen — ohne Warteschlangen, ohne Kompromisse, mit vollständigem Datenschutz.
+              </p>
+              <a href="#contact" class="btn-cta" data-de="Charter anfragen" data-en="Request Charter">Charter anfragen</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="service-row" onclick="toggleService('s2')">
+        <div class="service-thumb"><img src="https://images.aircharterservice.com/content/executive-airliners-2.png" alt="Aircraft rental interior seating" loading="lazy" width="68" height="52"></div>
+        <div class="service-row-title" data-de="Flugzeugvermietung" data-en="Aircraft Rental">Flugzeugvermietung</div>
+        <div class="service-row-tag" data-de="Wet & Dry Lease" data-en="Wet & Dry Lease">Wet & Dry Lease</div>
+        <div class="service-row-arrow">+</div>
+        <div class="service-expanded" id="s2">
+          <div class="service-expanded-inner">
+            <img src="https://images.unsplash.com/photo-1619659085985-f51a00f0160a?w=700&q=80&auto=format&fit=crop" alt="Flugzeugvermietung" loading="lazy" />
+            <div class="service-expanded-text">
+              <p data-de="Flexible kurz und langfristige Vermietung von Kolbenflugzeugen bis zu Business Jets. Sowohl Wet Lease (mit Crew) als auch Dry Lease (ohne Crew) für Privatpiloten, Flugschulen und Unternehmen."
+                 data-en="Flexible short and long-term rental from piston aircraft to business jets. Both wet lease (with crew) and dry lease (without crew) for private pilots, flight schools and companies.">
+                Flexible kurz und langfristige Vermietung von Kolbenflugzeugen bis zu Business Jets. Sowohl Wet Lease (mit Crew) als auch Dry Lease (ohne Crew) — für Privatpiloten, Flugschulen und Unternehmen.
+              </p>
+              <a href="#contact" class="btn-cta" data-de="Verfügbarkeit prüfen" data-en="Check Availability">Verfügbarkeit prüfen</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="service-row" onclick="toggleService('s3')">
+        <div class="service-thumb"><img src="https://www.accaviation.com/wp-content/uploads/2023/04/private-jet-interior.jpg" alt="VIP group flight cabin seating" loading="lazy" width="68" height="52"></div>
+        <div class="service-row-title" data-de="VIP-Gruppenflüge" data-en="VIP Group Flights">VIP-Gruppenflüge</div>
+        <div class="service-row-tag" data-de="Events & Business" data-en="Events & Business">Events & Business</div>
+        <div class="service-row-arrow">+</div>
+        <div class="service-expanded" id="s3">
+          <div class="service-expanded-inner">
+            <img src="https://images.unsplash.com/photo-1661954864180-e61dea14208a?w=700&q=80&auto=format&fit=crop" alt="Gruppenflüge" loading="lazy" />
+            <div class="service-expanded-text">
+              <p data-de="Maßgeschneiderte Gruppenflüge für Sportevents, Messen, Incentive-Reisen und Unternehmensveranstaltungen. Komplette Flugplanung, Bodenhandling und Concierge-Service."
+                 data-en="Custom group flights for sports events, trade fairs, incentive trips and corporate events. Complete flight planning, ground handling and concierge service.">
+                Maßgeschneiderte Gruppenflüge für Sportevents, Messen, Incentive-Reisen und Unternehmensveranstaltungen. Komplette Flugplanung, Bodenhandling und Concierge-Service.
+              </p>
+              <a href="#contact" class="btn-cta" data-de="Gruppenflug anfragen" data-en="Request Group Flight">Gruppenflug anfragen</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 4 -->
+      <div class="service-row" onclick="toggleService('s4')">
+        <div class="service-thumb"><img src="https://www.luxaviation.com/wp-content/uploads/2023/03/Lux_Ln_How-to-charter-a-Private-Jet_March2024.png" alt="Aircraft brokerage service visual" loading="lazy" width="68" height="52"></div>
+        <div class="service-row-title" data-de="Flugzeug & Helikopter-Broker" data-en="Aircraft & Helicopter Broker">Flugzeug & Helikopter-Broker</div>
+        <div class="service-row-tag" data-de="Kauf & Verkauf" data-en="Buy & Sell">Kauf & Verkauf</div>
+        <div class="service-row-arrow">+</div>
+        <div class="service-expanded" id="s4">
+          <div class="service-expanded-inner">
+            <img src="https://images.unsplash.com/photo-1619652116813-98504fce82d2?w=700&q=80&auto=format&fit=crop" alt="Broker" loading="lazy" />
+            <div class="service-expanded-text">
+              <p data-de="Wir begleiten Käufer und Verkäufer durch den gesamten Transaktionsprozess von der ersten Bewertung über Due Diligence bis zur Eigentumsübertragung. Für alle Klassen: Jets, Turboprops, Kolbenflugzeuge und Hubschrauber."
+                 data-en="We guide buyers and sellers through the entire transaction process from initial valuation through due diligence to title transfer. For all classes: jets, turboprops, piston aircraft and helicopters.">
+                Wir begleiten Käufer und Verkäufer durch den gesamten Transaktionsprozess von der ersten Bewertung über Due Diligence bis zur Eigentumsübertragung. Für alle Klassen: Jets, Turboprops, Kolbenflugzeuge und Hubschrauber.
+              </p>
+              <a href="#brokerage" class="btn-cta" data-de="Mehr zum Flugzeugverkauf" data-en="More about Brokerage">Mehr zum Broker</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ──────────────────────────────── -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+
+      <div class="about-img-wrap reveal">
+        <img src="https://images.unsplash.com/photo-1684838200815-36eef38f353c?w=900&q=85&auto=format&fit=crop"
+             alt="NGS Aviation" loading="lazy" />
+        <div class="about-img-caption">
+          <strong>5+</strong>
+          <span data-de="Jahre in der Luftfahrt" data-en="Years in Aviation">Jahre in der Luftfahrt</span>
+        </div>
+      </div>
+
+      <div class="about-text reveal">
+        <span class="eyebrow" data-de="Über NGS Aviation GmbH" data-en="About NGS Aviation GmbH">Über NGS Aviation GmbH</span>
+        <span class="rule"></span>
+        <h2 data-de="Erfahrung, der Sie vertrauen können." data-en="Experience you can trust.">
+          Erfahrung, der Sie vertrauen können.
+        </h2>
+        <p style="margin-top:1.2rem;"
+           data-de="NGS Aviation GmbH ist ein junges, dynamisches Unternehmen mit Sitz in Berlin spezialisiert auf Privatjet-Charter, Flugzeugvermietung und Broker-Dienstleistungen. Von Berlin aus betreuen wir Kunden aus Wirtschaft, Sport und Privatbereich Europaweit und darüber hinaus."
+           data-en="NGS Aviation GmbH is a young, dynamic company based in Berlin specialising in private jet charter, aircraft rental and brokerage services. From Berlin, we serve clients from business, sport and private sectors across Europe and beyond.">
+          NGS Aviation GmbH ist ein junges, dynamisches Unternehmen mit Sitz in Berlin spezialisiert auf Privatjet-Charter, Flugzeugvermietung und Broker-Dienstleistungen. Von Berlin aus betreuen wir Kunden aus Wirtschaft, Sport und Privatbereich — europaweit und darüber hinaus.
+        </p>
+        <p data-de="Unser Team aus erfahrenen Piloten, Luftfahrtjuristen und Broker-Spezialisten sorgt dafür, dass jede Anfrage ob Charter, Vermietung oder Kauf reibungslos und professionell abgewickelt wird."
+           data-en="Our team of experienced pilots, aviation lawyers and brokerage specialists ensures that every request whether charter, rental or purchase is handled smoothly and professionally.">
+          Unser Team aus erfahrenen Piloten, Luftfahrtjuristen und Broker-Spezialisten sorgt dafür, dass jede Anfrage ob Charter, Vermietung oder Kauf — reibungslos und professionell abgewickelt wird.
+        </p>
+        <div class="about-checks">
+          <div class="about-check">
+            <span class="check-tick"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="m8.4 12.1 2.3 2.4 4.9-5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div class="about-check-text">
+              <strong data-de="EASA-zertifiziert" data-en="EASA Certified">EASA-zertifiziert</strong>
+              <span data-de="AOC-konforme Operationen" data-en="AOC-compliant operations">AOC-konforme Operationen</span>
+            </div>
+          </div>
+          <div class="about-check">
+            <span class="check-tick"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="m8.4 12.1 2.3 2.4 4.9-5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div class="about-check-text">
+              <strong data-de="24/7 erreichbar" data-en="24/7 Available">24/7 erreichbar</strong>
+              <span data-de="Persönlicher Ansprechpartner" data-en="Dedicated contact person">Persönlicher Ansprechpartner</span>
+            </div>
+          </div>
+          <div class="about-check">
+            <span class="check-tick"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="m8.4 12.1 2.3 2.4 4.9-5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div class="about-check-text">
+              <strong data-de="Weltweites Netzwerk" data-en="Global Network">Weltweites Netzwerk</strong>
+              <span data-de="1.500+ Partnerflughäfen" data-en="1,500+ partner airports">1.500+ Partnerflughäfen</span>
+            </div>
+          </div>
+          <div class="about-check">
+            <span class="check-tick"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="m8.4 12.1 2.3 2.4 4.9-5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div class="about-check-text">
+              <strong data-de="Diskretion" data-en="Discretion">Diskretion</strong>
+              <span data-de="Höchste Datenschutzstandards" data-en="Highest privacy standards">Höchste Datenschutzstandards</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── BROKERAGE ──────────────────────────── -->
+<section id="brokerage">
+  <div class="container">
+
+    <div class="broker-header reveal">
+      <span class="eyebrow" data-de="Flugzeugverkauf" data-en="Brokerage Services">Dienstleistungen</span>
+      <span class="rule rule--center"></span>
+      <h2 data-de="Kauf & Verkauf von Flugzeugen und Hubschraubern" data-en="Buying & Selling Aircraft and Helicopters">
+        Kauf & Verkauf von Flugzeugen und Hubschraubern
+      </h2>
+      <p style="margin-top:1rem;"
+         data-de="Als akkreditierter Broker begleiten wir Sie durch jeden Schritt einer Transaktion transparent, professionell und mit tiefem Marktverständnis."
+         data-en="As an accredited broker we guide you through every step of a transaction transparently, professionally and with deep market understanding.">
+        Als akkreditierter Broker begleiten wir Sie durch jeden Schritt einer Transaktion — transparent, professionell und mit tiefem Marktverständnis.
+      </p>
+    </div>
+
+    <div class="broker-types-grid reveal">
+      <div class="broker-type-item">
+        <div class="broker-type-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 13.5l8.2-1.8L20 4l2 2-7.7 9.8-1.8 8.2-2.1-6-6-2.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M10.2 11.7 6 8.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <h3 data-de="Business Jets" data-en="Business Jets">Business Jets</h3>
+        <p data-de="Light bis Heavy Jets. Alle führenden Hersteller: Bombardier, Gulfstream, Dassault, Cessna."
+           data-en="Light to Heavy Jets. All leading manufacturers: Bombardier, Gulfstream, Dassault, Cessna.">
+          Light bis Heavy Jets. Alle führenden Hersteller: Bombardier, Gulfstream, Dassault, Cessna.
+        </p>
+      </div>
+      <div class="broker-type-item">
+        <div class="broker-type-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M12 8v3m-4 4h8m-9 0c0 2 1.8 4 5 4s5-2 5-4c0-2.6-1.8-4-5-4s-5 1.4-5 4Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 15h3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <h3 data-de="Hubschrauber" data-en="Helicopters">Hubschrauber</h3>
+        <p data-de="Zivile und semi-professionelle Helikopter, VIP-Konfigurationen, Turbinen-Typen."
+           data-en="Civil and semi-professional helicopters, VIP configurations, turbine types.">
+          Zivile und semi-professionelle Helikopter, VIP-Konfigurationen, Turbinen-Typen.
+        </p>
+      </div>
+      <div class="broker-type-item">
+        <div class="broker-type-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="1.8" fill="currentColor"/><path d="M12 3c1.8 1.2 2.8 2.6 2.8 4.2 0 1.5-.9 2.8-2.8 4.1-1.9-1.3-2.8-2.6-2.8-4.1C9.2 5.6 10.2 4.2 12 3Zm9 9c-1.2 1.8-2.6 2.8-4.2 2.8-1.5 0-2.8-.9-4.1-2.8 1.3-1.9 2.6-2.8 4.1-2.8 1.6 0 3 .9 4.2 2.8ZM12 21c-1.8-1.2-2.8-2.6-2.8-4.2 0-1.5.9-2.8 2.8-4.1 1.9 1.3 2.8 2.6 2.8 4.1 0 1.6-1 3-2.8 4.2ZM3 12c1.2-1.8 2.6-2.8 4.2-2.8 1.5 0 2.8.9 4.1 2.8-1.3 1.9-2.6 2.8-4.1 2.8C5.6 14.8 4.2 13.8 3 12Z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg></div>
+        <h3 data-de="Turboprops & Kolbenflugzeuge" data-en="Turboprops & Pistons">Turboprops & Kolbenflugzeuge</h3>
+        <p data-de="Einmotorig, mehrmotorig, Reiseflugzeuge für Privatpiloten und Schulungsbetriebe."
+           data-en="Single-engine, multi-engine, touring aircraft for private pilots and training operators.">
+          Einmotorig, mehrmotorig, Reiseflugzeuge für Privatpiloten und Schulungsbetriebe.
+        </p>
+      </div>
+      <div class="broker-type-item">
+        <div class="broker-type-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18M12 3a14.5 14.5 0 0 1 0 18M12 3a14.5 14.5 0 0 0 0 18" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></div>
+        <h3 data-de="Internationales Netzwerk" data-en="International Network">Internationales Netzwerk</h3>
+        <p data-de="Zugang zu qualifizierten Käufern und Verkäufern in Europa, Nahost und den USA."
+           data-en="Access to qualified buyers and sellers in Europe, Middle East and the USA.">
+          Zugang zu qualifizierten Käufern und Verkäufern in Europa, Nahost und den USA.
+        </p>
+      </div>
+    </div>
+
+    <div class="broker-process reveal">
+      <div class="broker-step">
+        <div class="broker-step-n">01</div>
+        <h4 data-de="Kostenlose Erstberatung" data-en="Free Initial Consultation">Kostenlose Erstberatung</h4>
+        <p data-de="Analyse Ihrer Anforderungen, Budget und Zeitplanung." data-en="Analysis of your requirements, budget and timeline.">Analyse Ihrer Anforderungen, Budget und Zeitplanung.</p>
+      </div>
+      <div class="broker-step">
+        <div class="broker-step-n">02</div>
+        <h4 data-de="Marktrecherche & Bewertung" data-en="Market Research & Valuation">Marktrecherche & Bewertung</h4>
+        <p data-de="Präzise Marktwertermittlung und weltweite Suche nach Angeboten." data-en="Precise market valuation and worldwide search for listings.">Präzise Marktwertermittlung und weltweite Suche nach Angeboten.</p>
+      </div>
+      <div class="broker-step">
+        <div class="broker-step-n">03</div>
+        <h4 data-de="Due Diligence & Inspektion" data-en="Due Diligence & Inspection">Due Diligence & Inspektion</h4>
+        <p data-de="Technische Prüfung, Logbücher, Wartungshistorie, Eigentumsrechte." data-en="Technical inspection, logbooks, maintenance history, title search.">Technische Prüfung, Logbücher, Wartungshistorie, Eigentumsrechte.</p>
+      </div>
+      <div class="broker-step">
+        <div class="broker-step-n">04</div>
+        <h4 data-de="Abschluss & Übergabe" data-en="Closing & Handover">Abschluss & Übergabe</h4>
+        <p data-de="Vollständige Begleitung bis zur Eigentumsübertragung und Luftfahrzeugzulassung." data-en="Full support until title transfer and aircraft registration.">Vollständige Begleitung bis zur Eigentumsübertragung und Luftfahrzeugzulassung.</p>
+      </div>
+    </div>
+
+    <div class="broker-images reveal">
+      <img src="https://images.unsplash.com/photo-1566212775038-532d06eda485?w=900&q=80&auto=format&fit=crop" alt="Aircraft brokerage" loading="lazy" />
+      <img src="https://images.unsplash.com/photo-1558597576-f1a962543f35?w=600&q=80&auto=format&fit=crop" alt="Helicopter brokerage" loading="lazy" />
+    </div>
+
+    <div style="text-align:center; margin-top:3rem;" class="reveal">
+      <a href="#contact" class="btn-cta" data-de="Beratungsgespräch vereinbaren" data-en="Schedule a Consultation">Beratungsgespräch vereinbaren</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── WHY ────────────────────────────────── -->
+<section id="why">
+  <div class="container">
+    <div class="why-inner">
+
+      <div class="why-text reveal">
+        <span class="eyebrow" data-de="Warum NGS Aviation?" data-en="Why NGS Aviation?">Warum NGS Aviation?</span>
+        <span class="rule"></span>
+        <h2 data-de="Verlässlichkeit ist keine Option. Sie ist unser Standard." data-en="Reliability is not an option. It is our standard.">
+          Verlässlichkeit ist keine Option. Sie ist unser Standard.
+        </h2>
+        <p data-de="Unternehmen, Sportler, Familien und Institutionen vertrauen NGS Aviation GmbH für Charter, Vermietung und den Kauf oder Verkauf ihrer Luftfahrzeuge, diskret und professionell abgewickelt."
+           data-en="Companies, athletes, families and institutions trust NGS Aviation GmbH for charter, rental and the purchase or sale of their aircraft, handled discreetly and professionally.">
+          Unternehmen, Sportler, Familien und Institutionen vertrauen NGS Aviation für Charter, Vermietung und den Kauf oder Verkauf ihrer Luftfahrzeuge, diskret und professionell abgewickelt.
+        </p>
+        <p data-de="Unser Anspruch: höchste Qualität, vollständige Transparenz und ein Service, der weit über die Transaktion hinausgeht."
+           data-en="Our claim: highest quality, complete transparency and a service that goes far beyond the transaction.">
+          Unser Anspruch: höchste Qualität, vollständige Transparenz und ein Service, der weit über die Transaktion hinausgeht.
+        </p>
+        <div style="margin-top:2rem;">
+          <a href="#contact" class="btn-cta" style="background:white;color:var(--ink);border-color:white;"
+             data-de="Jetzt Kontakt aufnehmen" data-en="Get in Touch Now">Jetzt Kontakt aufnehmen</a>
+        </div>
+      </div>
+
+      <div class="why-metrics reveal reveal-delay-2">
+        <div class="why-metric">
+          <div class="why-metric-n">24/7</div>
+          <div class="why-metric-l" data-de="Erreichbar" data-en="Available">Erreichbar</div>
+        </div>
+        <div class="why-metric">
+          <div class="why-metric-n" style="font-size:1.5rem;letter-spacing:1px;" data-de="Weltweit" data-en="Worldwide">Weltweit</div>
+          <div class="why-metric-l" data-de="Destinationen" data-en="Destinations">Destinationen</div>
+        </div>
+        <div class="why-metric">
+          <div class="why-metric-n">98%</div>
+          <div class="why-metric-l" data-de="Kundenzufriedenheit" data-en="Client Satisfaction">Kundenzufriedenheit</div>
+        </div>
+        <div class="why-metric">
+          <div class="why-metric-n">100+</div>
+          <div class="why-metric-l" data-de="Vermittelte Luftfahrzeuge" data-en="Aircraft Brokered">Vermittelte Luftfahrzeuge</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── QUOTE ──────────────────────────────── -->
+<section id="quote">
+  <div class="container">
+    <div class="quote-wrap reveal">
+      <span class="quote-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 10.5c0 3-1.4 5.5-4.2 7.4m11.2-7.4c0 3-1.4 5.5-4.2 7.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M9 6.5H5.8A2.8 2.8 0 0 0 3 9.3v2.2h6V6.5Zm11 0h-3.2A2.8 2.8 0 0 0 14 9.3v2.2h6V6.5Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+      <p class="quote-text"
+         data-de="Zeit ist das kostbarste Gut. Wir stellen sicher, dass Sie jede Minute davon genießen."
+         data-en="Time is the most precious asset. We make sure you enjoy every minute of it.">
+        Zeit ist das kostbarste Gut. Wir stellen sicher, dass Sie jede Minute davon genießen.
+      </p>
+      <p class="quote-attr">— NGS Aviation GmbH</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ────────────────────────────── -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-grid">
+
+      <div class="reveal">
+        <span class="eyebrow" data-de="Sprechen wir miteinander" data-en="Let's Talk">Sprechen wir miteinander</span>
+        <span class="rule"></span>
+        <h2 data-de="Bereit für Ihren nächsten Flug?" data-en="Ready for your next flight?">
+          Bereit für Ihren nächsten Flug?
+        </h2>
+        <p style="margin-top:1rem;"
+           data-de="Unser Team steht Ihnen täglich von 10:00 bis 22:00 Uhr zur Verfügung. Für dringende Anfragen sind wir rund um die Uhr erreichbar."
+           data-en="Our team is available daily from 10:00 to 22:00. For urgent requests we are available around the clock.">
+          Unser Team steht Ihnen täglich von 10:00 bis 22:00 Uhr zur Verfügung. Für dringende Anfragen sind wir rund um die Uhr erreichbar.
+        </p>
+        <div class="contact-details" style="margin-top:2.5rem;">
+          <div class="cdet">
+            <span class="cdet-label">E-Mail</span>
+            <span class="cdet-val">sergioparadiso@ngsaviation.de</span>
+          </div>
+          <div class="cdet">
+            <span class="cdet-label" data-de="Adresse" data-en="Address">Adresse</span>
+            <span class="cdet-val">Bergholzstraße 8 · 12099 Berlin</span>
+          </div>
+          <div class="cdet">
+            <span class="cdet-label" data-de="Öffnungszeiten" data-en="Hours">Öffnungszeiten</span>
+            <span class="cdet-val" data-de="Mo – So · 10:00 – 22:00 Uhr" data-en="Mon – Sun · 10:00 – 22:00">Mo – So · 10:00 – 22:00 Uhr</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form reveal reveal-delay-1">
+        <p class="cform-title" data-de="Anfrage senden" data-en="Send Request">Anfrage senden</p>
+        <p class="cform-sub" data-de="Wir antworten innerhalb von 2 Stunden." data-en="We respond within 2 hours.">Wir antworten innerhalb von 2 Stunden.</p>
+
+        <form id="cform">
+          <div class="form-2col">
+            <div class="fg">
+              <label data-de="Vorname" data-en="First Name">Vorname</label>
+              <input type="text" name="first_name" required placeholder="Max" />
+            </div>
+            <div class="fg">
+              <label data-de="Nachname" data-en="Last Name">Nachname</label>
+              <input type="text" name="last_name" required placeholder="Mustermann" />
+            </div>
+          </div>
+          <div class="fg">
+            <label>E-Mail</label>
+            <input type="email" name="email" required placeholder="max@beispiel.de" />
+          </div>
+          <div class="fg">
+            <label data-de="Telefon (optional)" data-en="Phone (optional)">Telefon (optional)</label>
+            <input type="tel" name="phone" placeholder="+49 …" />
+          </div>
+          <div class="form-2col">
+            <div class="fg">
+              <label data-de="Abflugort" data-en="Departure">Abflugort</label>
+              <input type="text" name="departure" placeholder="Frankfurt" />
+            </div>
+            <div class="fg">
+              <label data-de="Zielort" data-en="Destination">Zielort</label>
+              <input type="text" name="destination" placeholder="London" />
+            </div>
+          </div>
+          <div class="form-2col">
+            <div class="fg">
+              <label data-de="Datum" data-en="Date">Datum</label>
+              <input type="date" name="date" />
+            </div>
+            <div class="fg">
+              <label data-de="Art der Anfrage" data-en="Request Type">Art der Anfrage</label>
+              <select name="service">
+                <option value="" data-de="Bitte wählen …" data-en="Please select …">Bitte wählen …</option>
+                <option value="charter" data-de="Privatjet-Charter" data-en="Private Jet Charter">Privatjet-Charter</option>
+                <option value="rental" data-de="Flugzeugvermietung" data-en="Aircraft Rental">Flugzeugvermietung</option>
+                <option value="group" data-de="Gruppenflug" data-en="Group Flight">Gruppenflug</option>
+                <option value="buy" data-de="Flugzeug kaufen" data-en="Buy Aircraft">Flugzeug kaufen</option>
+                <option value="sell" data-de="Flugzeug verkaufen" data-en="Sell Aircraft">Flugzeug verkaufen</option>
+                <option value="heli-buy" data-de="Hubschrauber kaufen" data-en="Buy Helicopter">Hubschrauber kaufen</option>
+                <option value="heli-sell" data-de="Hubschrauber verkaufen" data-en="Sell Helicopter">Hubschrauber verkaufen</option>
+                <option value="other" data-de="Sonstiges" data-en="Other">Sonstiges</option>
+              </select>
+            </div>
+          </div>
+          <div class="fg">
+            <label data-de="Nachricht" data-en="Message">Nachricht</label>
+            <textarea name="message" placeholder="Beschreiben Sie Ihr Anliegen …"></textarea>
+          </div>
+          <div class="fg" style="margin-top:1rem; margin-bottom:1rem;">
+            <label for="privacy-consent" style="display:flex; gap:0.75rem; align-items:flex-start; text-transform:none; letter-spacing:0; font-size:0.82rem; color:var(--ink-mid);">
+              <input id="privacy-consent" type="checkbox" required style="width:auto; margin-top:0.2rem; accent-color:var(--ink);" />
+              <span data-de="Ich habe die Datenschutzerklärung gelesen und stimme der Verarbeitung meiner Angaben zur Bearbeitung meiner Anfrage zu." data-en="I have read the privacy policy and agree to the processing of my data for handling my enquiry.">Ich habe die Datenschutzerklärung gelesen und stimme der Verarbeitung meiner Angaben zur Bearbeitung meiner Anfrage zu.</span>
+            </label>
+          </div>
+
+          <div class="form-footer">
+            <p class="form-note">
+              <span data-de="Mit dem Absenden des Formulars erklären Sie sich mit der Verarbeitung Ihrer Angaben zur Bearbeitung Ihrer Anfrage einverstanden. Details in unserer"
+                    data-en="Your data is treated confidentially. Learn more in our">
+                Mit dem Absenden des Formulars erklären Sie sich mit der Verarbeitung Ihrer Angaben zur Bearbeitung Ihrer Anfrage einverstanden. Details in unserer
+              </span>
+              <a href="#" onclick="openLegalModal('datenschutz'); return false;" data-de="Datenschutzerklärung." data-en="Privacy Policy.">Datenschutzerklärung.</a>
+            </p>
+            <button type="submit" class="btn-cta" data-de="Absenden" data-en="Submit">Absenden</button>
+          </div>
+          <div class="form-toast" id="toast"
+               data-de=" Vielen Dank — wir melden uns in Kürze."
+               data-en=" Thank you — we'll be in touch shortly.">
+             Vielen Dank — wir melden uns in Kürze.
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────── -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <button type="button" class="footer-brand-trigger" onclick="openLegalModal('impressum')" aria-haspopup="dialog" aria-controls="legalModal">
+          <div class="brand-mark" aria-label="NGS Aviation logo">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 22" fill="none">
+  <title>NGS Aviation</title>
+  <path d="M2 21L15 1L28 21" stroke="#88AECA" stroke-width="1.8" stroke-linejoin="round"/>
+  <path d="M8 21L15 9L22 21" stroke="#0F2540" stroke-width="2.2" stroke-linejoin="round"/>
+</svg></div>
+          <div class="footer-brand-copy">
+            <strong>NGS Aviation GmbH</strong>
+            <span>Berlin · Private Aviation · Brokerage</span>
+          </div>
+        </button>
+        <p class="footer-brand-note">Klicken Sie auf den Firmennamen für Impressum und Datenschutz.</p>
+        <div class="footer-certs">
+          <div class="footer-cert">24/7</div>
+          <div class="footer-cert">Europe</div>
+          <div class="footer-cert">Brokerage</div>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h5 data-de="Leistungen" data-en="Services">Leistungen</h5>
+        <ul>
+          <li><a href="#services" data-de="Privatjet-Charter" data-en="Private Jet Charter">Privatjet-Charter</a></li>
+          <li><a href="#services" data-de="Flugzeugvermietung" data-en="Aircraft Rental">Flugzeugvermietung</a></li>
+          <li><a href="#services" data-de="Gruppenflüge" data-en="Group Flights">Gruppenflüge</a></li>
+          <li><a href="#brokerage" data-de="Flugzeug-Broker" data-en="Aircraft Broker">Flugzeug-Broker</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5 data-de="Unternehmen" data-en="Company">Unternehmen</h5>
+        <ul>
+          <li><a href="#about" data-de="Über uns" data-en="About Us">Über uns</a></li>
+          <li><a href="#why" data-de="Warum NGS?" data-en="Why NGS?">Warum NGS?</a></li>
+          <li><a href="#contact" data-de="Kontakt" data-en="Contact">Kontakt</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5 data-de="Kontakt" data-en="Contact">Kontakt</h5>
+        <ul>
+          <li><a href="mailto:sergioparadiso@ngsaviation.de">sergioparadiso@ngsaviation.de</a></li>
+          <li><a href="#contact">Bergholzstraße 8 · 12099 Berlin</a></li>
+          <li><a href="https://www.ngsaviation.de" target="_blank" rel="noopener noreferrer">www.ngsaviation.de</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 NGS Aviation GmbH · Berlin · Deutschland</p>
+      <button type="button" class="footer-legal-inline" onclick="openLegalModal('impressum')">Impressum & Datenschutz</button>
+    </div>
+  </div>
+</footer>
+
+<div class="legal-modal" id="legalModal" aria-hidden="true">
+  <div class="legal-modal-panel" role="dialog" aria-modal="true" aria-labelledby="legalModalTitle">
+    <div class="legal-modal-head">
+      <div>
+        <div class="eyebrow" id="legalModalTitle">NGS Aviation GmbH</div>
+        <div style="font-family:'DM Serif Display', serif; font-size:1.4rem; color:var(--ink);">Rechtliche Informationen</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:.8rem;">
+        <div class="legal-modal-tabs">
+          <button type="button" class="legal-tab active" data-target="impressum-pane" onclick="switchLegalPane('impressum-pane', this)">Impressum</button>
+          <button type="button" class="legal-tab" data-target="datenschutz-pane" onclick="switchLegalPane('datenschutz-pane', this)">Datenschutz</button>
+        </div>
+        <button type="button" class="legal-close" onclick="closeLegalModal()" aria-label="Close legal information">×</button>
+      </div>
+    </div>
+    <div class="legal-modal-body">
+      <div class="legal-pane active" id="impressum-pane"><!-- ── IMPRESSUM ─────────────────────────── -->
+<section id="impressum" style="background:var(--bg-tint); padding:6rem 0; border-top:1px solid var(--line);">
+  <div class="container" style="max-width:760px;">
+    <span class="eyebrow">Rechtliches</span>
+    <span class="rule"></span>
+    <h2 style="font-size:2rem; margin-bottom:2.5rem;" data-de="Impressum" data-en="Legal Notice">Impressum</h2>
+
+    <div style="display:grid; gap:2rem; font-size:0.95rem; line-height:1.8; color:var(--ink-mid);">
+
+      <div>
+        <strong style="color:var(--ink); font-size:0.75rem; letter-spacing:2px; text-transform:uppercase;">Angaben gemäß § 5 DDG</strong>
+        <p style="margin-top:0.8rem;">
+          NGS Aviation GmbH<br>
+          (NewGen Service Aviation GmbH)<br>
+          Bergholzstraße 8<br>
+          12099 Berlin<br>
+          Deutschland
+        </p>
+      </div>
+
+      <div>
+        <strong style="color:var(--ink); font-size:0.75rem; letter-spacing:2px; text-transform:uppercase;">Vertreten durch</strong>
+        <p style="margin-top:0.8rem;">Geschäftsführer: Sergio Paradiso</p>
+      </div>
+
+      <div>
+        <strong style="color:var(--ink); font-size:0.75rem; letter-spacing:2px; text-transform:uppercase;">Kontakt</strong>
+        <p style="margin-top:0.8rem;">
+          E-Mail: <a href="mailto:sergioparadiso@ngsaviation.de" style="color:var(--ink); border-bottom:1px solid var(--line);">sergioparadiso@ngsaviation.de</a><br>
+          Web: <a href="https://www.ngsaviation.de" style="color:var(--ink); border-bottom:1px solid var(--line);">www.ngsaviation.de</a>
+        </p>
+      </div>
+
+      <div>
+        <strong style="color:var(--ink); font-size:0.75rem; letter-spacing:2px; text-transform:uppercase;">Handelsregister</strong>
+        <p style="margin-top:0.8rem;">
+          Registernummer: HRB 255506 B<br>
+          Registergericht: Amtsgericht Charlottenburg (Berlin)
+        </p>
+      </div>
+
+      <div>
+        <strong style="color:var(--ink); font-size:0.75rem; letter-spacing:2px; text-transform:uppercase;">Umsatzsteuer-ID</strong>
+        <p style="margin-top:0.8rem;">
+          Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG:<br>
+          DE 362 615 806
+        </p>
+      </div>
+
+      <div>
+        <strong style="color:var(--ink); font-size:0.75rem; letter-spacing:2px; text-transform:uppercase;">Verantwortlich für den Inhalt (§ 55 Abs. 2 RStV)</strong>
+        <p style="margin-top:0.8rem;">
+          Sergio Paradiso<br>
+          Bergholzstraße 8, 12099 Berlin
+        </p>
+      </div>
+
+      <div style="padding-top:1rem; border-top:1px solid var(--line); font-size:0.85rem; color:var(--ink-soft);">
+        <strong style="color:var(--ink); font-size:0.75rem; letter-spacing:2px; text-transform:uppercase;">Haftungsausschluss</strong>
+        <p style="margin-top:0.8rem;">Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir keine Gewähr übernehmen. Als Diensteanbieter sind wir nach den allgemeinen Gesetzen für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich.</p>
+      </div>
+
+    </div>
+  </div>
+</section></div>
+      <div class="legal-pane" id="datenschutz-pane"><!-- ── DATENSCHUTZ ─────────────────────────── -->
+<section id="datenschutz" style="background:var(--bg); padding:6rem 0; border-top:1px solid var(--line);">
+  <div class="container" style="max-width:860px;">
+    <span class="eyebrow">Datenschutz</span>
+    <span class="rule"></span>
+    <h2 style="font-size:2rem; margin-bottom:2rem;" data-de="Datenschutzerklärung" data-en="Privacy Policy">Datenschutzerklärung</h2>
+    <div style="display:grid; gap:1.5rem; font-size:0.95rem; line-height:1.85; color:var(--ink-mid);">
+      <p data-de="Der Schutz Ihrer personenbezogenen Daten ist uns wichtig. Nachfolgend informieren wir Sie über Art, Umfang und Zweck der Verarbeitung personenbezogener Daten auf dieser Website." data-en="The protection of your personal data is important to us. Below we inform you about the type, scope and purpose of the processing of personal data on this website.">Der Schutz Ihrer personenbezogenen Daten ist uns wichtig. Nachfolgend informieren wir Sie über Art, Umfang und Zweck der Verarbeitung personenbezogener Daten auf dieser Website.</p>
+
+      <div>
+        <strong style="color:var(--ink); font-size:0.75rem; letter-spacing:2px; text-transform:uppercase;">Verantwortlicher</strong>
+        <p style="margin-top:0.8rem;">NGS Aviation GmbH<br>Bergholzstraße 8<br>12099 Berlin<br>Deutschland<br>E-Mail: <a href="mailto:sergioparadiso@ngsaviation.de" style="color:var(--ink); border-bottom:1px solid var(--line);">sergioparadiso@ngsaviation.de</a></p>
+      </div>
+
+      <div>
+        <strong style="color:var(--ink); font-size:0.75rem; letter-spacing:2px; text-transform:uppercase;">Hosting und Server-Logfiles</strong>
+        <p style="margin-top:0.8rem;">Beim Besuch dieser Website werden technisch erforderliche Daten verarbeitet, um die Seite bereitzustellen und die Sicherheit der Systeme zu gewährleisten. Hierzu können insbesondere IP-Adresse, Datum und Uhrzeit des Zugriffs, Browsertyp, Betriebssystem, Referrer-URL sowie aufgerufene Seiten gehören. Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO aufgrund unseres berechtigten Interesses an einem sicheren und stabilen Betrieb der Website.</p>
+      </div>
+
+      <div>
+        <strong style="color:var(--ink); font-size:0.75rem; letter-spacing:2px; text-transform:uppercase;">Kontaktformular und E-Mail-Kontakt</strong>
+        <p style="margin-top:0.8rem;">Wenn Sie uns per Kontaktformular oder E-Mail Anfragen zukommen lassen, werden Ihre Angaben aus dem Formular einschließlich der von Ihnen dort angegebenen Kontaktdaten zum Zweck der Bearbeitung der Anfrage und für den Fall von Anschlussfragen verarbeitet. Die Verarbeitung erfolgt je nach Anliegen auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO zur Durchführung vorvertraglicher Maßnahmen oder auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO im Rahmen unseres berechtigten Interesses an einer effizienten Bearbeitung von Anfragen.</p>
+      </div>
+
+      <div>
+        <strong style="color:var(--ink); font-size:0.75rem; letter-spacing:2px; text-transform:uppercase;">Speicherdauer</strong>
+        <p style="margin-top:0.8rem;">Wir speichern personenbezogene Daten nur so lange, wie dies für die Bearbeitung Ihrer Anfrage, zur Erfüllung gesetzlicher Pflichten oder zur Durchsetzung beziehungsweise Abwehr von Ansprüchen erforderlich ist. Anschließend werden die Daten gelöscht, sofern keine gesetzlichen Aufbewahrungspflichten entgegenstehen.</p>
+      </div>
+
+      <div>
+        <strong style="color:var(--ink); font-size:0.75rem; letter-spacing:2px; text-transform:uppercase;">Empfänger und Drittlandtransfer</strong>
+        <p style="margin-top:0.8rem;">Eine Weitergabe Ihrer Daten erfolgt nur, soweit dies zur Bearbeitung Ihrer Anfrage erforderlich ist, eine gesetzliche Verpflichtung besteht oder Sie eingewilligt haben. Sofern auf dieser Website Inhalte oder Dienste Dritter eingebunden werden, kann es zu einer Verarbeitung personenbezogener Daten durch diese Anbieter kommen. Bitte prüfen Sie vor dem Livegang insbesondere den Einsatz externer Analyse-, Karten-, Video-, Chat- oder Schriftarten-Dienste und ergänzen Sie diese Datenschutzerklärung gegebenenfalls um entsprechende Angaben.</p>
+      </div>
+
+      <div>
+        <strong style="color:var(--ink); font-size:0.75rem; letter-spacing:2px; text-transform:uppercase;">Cookies und Einwilligungsmanagement</strong>
+        <p style="margin-top:0.8rem;">Diese Website sollte ohne nicht technisch erforderliche Cookies betrieben werden, solange kein Consent-Management-Tool implementiert ist. Werden künftig Statistik-, Marketing- oder externe Medien-Dienste eingesetzt, ist vor deren Aktivierung grundsätzlich eine entsprechende Einwilligung einzuholen.</p>
+      </div>
+
+      <div>
+        <strong style="color:var(--ink); font-size:0.75rem; letter-spacing:2px; text-transform:uppercase;">Ihre Rechte</strong>
+        <p style="margin-top:0.8rem;">Sie haben im Rahmen der gesetzlichen Vorschriften das Recht auf Auskunft über die zu Ihrer Person gespeicherten Daten, auf Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit sowie Widerspruch gegen die Verarbeitung. Sofern eine Verarbeitung auf einer Einwilligung beruht, können Sie diese jederzeit mit Wirkung für die Zukunft widerrufen. Zudem haben Sie das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren.</p>
+      </div>
+
+      <div>
+        <strong style="color:var(--ink); font-size:0.75rem; letter-spacing:2px; text-transform:uppercase;">Stand</strong>
+        <p style="margin-top:0.8rem;">Stand dieser Datenschutzerklärung: April 2026.</p>
+      </div>
+    </div>
+  </div>
+</section></div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- ── JS ────────────────────────────────── -->
+<script>
+  // Loader
+  window.addEventListener('load', () => {
+    setTimeout(() => document.getElementById('loader').classList.add('out'), 1300);
+    document.getElementById('heroImg').classList.add('loaded');
+  });
+
+  // Nav
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('solid', window.scrollY > 50);
+  });
+
+  // Reveal on scroll
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        e.target.classList.add('up');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // Service accordion
+  let openService = null;
+  function toggleService(id) {
+    const el = document.getElementById(id);
+    const row = el.closest('.service-row');
+    const arrow = row.querySelector('.service-row-arrow');
+    if (openService && openService !== id) {
+      const prev = document.getElementById(openService);
+      prev.classList.remove('open');
+      prev.closest('.service-row').querySelector('.service-row-arrow').textContent = '+';
+    }
+    const isOpen = el.classList.toggle('open');
+    arrow.textContent = isOpen ? '−' : '+';
+    openService = isOpen ? id : null;
+  }
+
+  // Language
+  let lang = 'de';
+  function setLang(l) {
+    lang = l;
+    document.documentElement.lang = l;
+    document.querySelectorAll('.lang-sw button').forEach(b => {
+      b.classList.toggle('on', b.textContent.toLowerCase() === l);
+    });
+    document.querySelectorAll('[data-' + l + ']').forEach(el => {
+      const val = el.getAttribute('data-' + l);
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = val;
+      else if (el.tagName === 'OPTION') el.textContent = val;
+      else el.innerHTML = val;
+    });
+  }
+
+  // Drawer
+  function openDrawer()  { document.getElementById('drawer').classList.add('open'); }
+  function closeDrawer() { document.getElementById('drawer').classList.remove('open'); }
+
+  // Smooth scroll with offset
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (!t) return;
+      e.preventDefault();
+      window.scrollTo({ top: t.offsetTop - nav.offsetHeight - 20, behavior: 'smooth' });
+    });
+  });
+
+  // Form
+  const cform = document.getElementById('cform');
+  if (cform) {
+    cform.addEventListener('submit', function doSubmit(e) {
+      e.preventDefault();
+      const toast = document.getElementById('toast');
+      if (toast) {
+        setTimeout(() => { toast.style.display = 'block'; }, 300);
+      }
+    });
+  }
+
+  const legalModal = document.getElementById('legalModal');
+  function openLegalModal(pane = 'impressum') {
+    if (!legalModal) return;
+    legalModal.classList.add('open');
+    legalModal.setAttribute('aria-hidden', 'false');
+    const targetId = pane === 'datenschutz' ? 'datenschutz-pane' : 'impressum-pane';
+    const btn = legalModal.querySelector(`.legal-tab[data-target="${targetId}"]`);
+    if (btn) switchLegalPane(targetId, btn);
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLegalModal() {
+    if (!legalModal) return;
+    legalModal.classList.remove('open');
+    legalModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+  function switchLegalPane(id, btn) {
+    document.querySelectorAll('.legal-pane').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.legal-tab').forEach(el => el.classList.remove('active'));
+    const pane = document.getElementById(id);
+    if (pane) pane.classList.add('active');
+    if (btn) btn.classList.add('active');
+  }
+  if (legalModal) {
+    legalModal.addEventListener('click', (e) => { if (e.target === legalModal) closeLegalModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && legalModal.classList.contains('open')) closeLegalModal(); });
+  }
+
+</script>
+
+</body>
+</html>
